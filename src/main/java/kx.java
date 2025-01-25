@@ -3,23 +3,6 @@ import java.util.ArrayList;
 
 public class kx {
 
-    private static void listOut(ArrayList<Task> tasks) {
-        System.out.println("____________________________________________________________");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println("  " + (i + 1) + ". [" + tasks.get(i).getStatusIcon() + "] " +tasks.get(i).description);
-            }
-        System.out.println("____________________________________________________________");
-    }
-
-    private static void addTask(ArrayList<Task> tasks, String input) {
-        tasks.add(new Task(input));
-            System.out.println("____________________________________________________________");
-            System.out.println("  added: " + input);
-            System.out.println("____________________________________________________________");
-    }
-
-
-
     public static void main(String[] args) {
         System.out.println("____________________________________________________________");
         System.out.println("  Hello! I'm kx, the kai xin bot!\n  What can I do for you?");
@@ -29,9 +12,8 @@ public class kx {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            String input = scanner.nextLine();
-            String[] commands = input.split(" ");
-            String command = commands[0];
+            String[] input = scanner.nextLine().split(" ", 2);
+            String command = input[0];
 
 
             if (command.equals("bye")) {
@@ -44,18 +26,51 @@ public class kx {
                 listOut(tasks);
 
             } else if (command.equals("mark")) {
-                Task task = tasks.get(Integer.parseInt(commands[1]) - 1);
+                Task task = tasks.get(Integer.parseInt(input[1]) - 1);
                 System.out.println(task.markAsDone());
 
             } else if (command.equals("unmark")){
-                Task task = tasks.get(Integer.parseInt(commands[1]) - 1);
+                Task task = tasks.get(Integer.parseInt(input[1]) - 1);
                 System.out.println(task.markAsUndone());
 
-            } else {
-                addTask(tasks, command);
+            } else if (command.equals("deadline")) {
+
+                String[] outputs = input[1].split(" /by ");
+                Deadlines newTask = new Deadlines(outputs[0], outputs[1]);
+                addTask(tasks, newTask);
+
+            } else if (command.equals("todo")) {
+                Todo newTask = new Todo (input[1]);
+                addTask(tasks, newTask);
+
+            } else if (command.equals("event")) {
+                String[] outputs = input[1].split(" /from ");
+                String[] outputs2 = outputs[1].split(" /to ");
+                Events newTask = new Events(outputs[0], outputs2[0], outputs2[1]);
+                addTask(tasks, newTask);
+
             }
         }
         scanner.close();
 
+    }
+
+    private static void listOut(ArrayList<Task> tasks) {
+        System.out.println("____________________________________________________________");
+        System.out.println("  Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            Task curr = tasks.get(i);
+            System.out.println("  " + (i + 1) + ". " + curr.toString());
+            }
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void addTask(ArrayList<Task> tasks, Task newTask) {
+        tasks.add(newTask);
+            System.out.println("____________________________________________________________");
+            System.out.println("  Got it. I've added this task:");
+            System.out.println("  " + newTask.toString());
+            System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
+            System.out.println("____________________________________________________________");
     }
 }
