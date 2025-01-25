@@ -78,6 +78,16 @@ public class kx {
                 }
                 Events newTask = new Events(outputs[0], outputs2[0], outputs2[1]);
                 addTask(tasks, newTask);
+
+            } else if (command.equals("delete")) {
+                Task currTask = tasks.get(Integer.parseInt(input[1]) - 1);
+
+                System.out.println("____________________________________________________________");
+                System.out.println("  Noted. I've removed this task:\n  " + currTask.toString());
+
+                tasks.remove(Integer.parseInt(input[1]) - 1);
+                System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println("____________________________________________________________");
             }
             else {
                 throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
