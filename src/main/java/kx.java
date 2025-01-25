@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class kx {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws kxException {
         System.out.println("____________________________________________________________");
         System.out.println("  Hello! I'm kx, the kai xin bot!\n  What can I do for you?");
         System.out.println("____________________________________________________________");
@@ -14,6 +14,10 @@ public class kx {
         while (true) {
             String[] input = scanner.nextLine().split(" ", 2);
             String command = input[0];
+
+            if (input.length == 1 && !command.equals("list") && !command.equals("bye")) {
+                throw new kxException("  ERROR! The description of a task cannot be empty.");
+            }
 
 
             if (command.equals("bye")) {
@@ -35,7 +39,18 @@ public class kx {
 
             } else if (command.equals("deadline")) {
 
+                // check for /by
+                if (!input[1].contains(" /by ")) {
+                    throw new kxException("  ERROR! The description of a deadline must include /by.");
+                }
+
                 String[] outputs = input[1].split(" /by ");
+                
+                // check for both task and deadline
+                if (outputs.length != 2) {
+                    throw new kxException("  ERROR! The description must include both the task and the deadline.");
+                }
+
                 Deadlines newTask = new Deadlines(outputs[0], outputs[1]);
                 addTask(tasks, newTask);
 
@@ -44,11 +59,28 @@ public class kx {
                 addTask(tasks, newTask);
 
             } else if (command.equals("event")) {
+
+                // check for /from and /to
+                if (!input[1].contains(" /from ") || !input[1].contains(" /to ")) {
+                    throw new kxException("  ERROR! The description of a deadline must include /from and /to.");
+                }
+
                 String[] outputs = input[1].split(" /from ");
+                // check for both task and event
+                if (outputs.length != 2) {
+                    throw new kxException("  ERROR! The description must include the event, start, and end timings. It cannot be empty.");
+                }
+
                 String[] outputs2 = outputs[1].split(" /to ");
+                // check for both task and event
+                if (outputs2.length != 2) {
+                    throw new kxException("  ERROR! The description must include the start and end timings. It cannot be empty.");
+                }
                 Events newTask = new Events(outputs[0], outputs2[0], outputs2[1]);
                 addTask(tasks, newTask);
-
+            }
+            else {
+                throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
             }
         }
         scanner.close();
