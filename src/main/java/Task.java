@@ -14,13 +14,13 @@ public class Task {
 
     public String markAsDone() {
         this.isDone = true;
-        return " Nice! I've marked this task as done:\n" + this.toString();
+        return kx.SEPARATOR + "\n  Nice! I've marked this task as done:\n  " + this.toString() + "\n" + kx.SEPARATOR;
     }
 
 
     public String markAsUndone() {
         this.isDone = false;
-        return "  OK, I've marked this task as not done yet:\n" + this.toString();
+        return kx.SEPARATOR + "\n  OK, I've marked this task as not done yet:\n  " + this.toString() + "\n" + kx.SEPARATOR;
     }
 
     @Override

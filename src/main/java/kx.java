@@ -3,10 +3,12 @@ import java.util.ArrayList;
 
 public class kx {
 
+    public static final String SEPARATOR = "____________________________________________________________";
+
     public static void main(String[] args) throws kxException {
-        System.out.println("____________________________________________________________");
+        System.out.println(SEPARATOR);
         System.out.println("  Hello! I'm kx, the kai xin bot!\n  What can I do for you?");
-        System.out.println("____________________________________________________________");
+        System.out.println(SEPARATOR);
 
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -21,9 +23,9 @@ public class kx {
 
 
             if (command.equals("bye")) {
-                System.out.println("____________________________________________________________");
+                System.out.println(SEPARATOR);
                 System.out.println("  Bye bye and hope to see you again soon!");
-                System.out.println("____________________________________________________________");
+                System.out.println(SEPARATOR);
                 break;
 
             } else if (command.equals("list")) {
@@ -82,12 +84,12 @@ public class kx {
             } else if (command.equals("delete")) {
                 Task currTask = tasks.get(Integer.parseInt(input[1]) - 1);
 
-                System.out.println("____________________________________________________________");
+                System.out.println(SEPARATOR);
                 System.out.println("  Noted. I've removed this task:\n  " + currTask.toString());
 
                 tasks.remove(Integer.parseInt(input[1]) - 1);
                 System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
-                System.out.println("____________________________________________________________");
+                System.out.println(SEPARATOR);
             }
             else {
                 throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
@@ -98,21 +100,21 @@ public class kx {
     }
 
     private static void listOut(ArrayList<Task> tasks) {
-        System.out.println("____________________________________________________________");
+        System.out.println(SEPARATOR);
         System.out.println("  Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             Task curr = tasks.get(i);
             System.out.println("  " + (i + 1) + ". " + curr.toString());
             }
-        System.out.println("____________________________________________________________");
+        System.out.println(SEPARATOR);
     }
 
     private static void addTask(ArrayList<Task> tasks, Task newTask) {
         tasks.add(newTask);
-            System.out.println("____________________________________________________________");
+            System.out.println(SEPARATOR);
             System.out.println("  Got it. I've added this task:");
             System.out.println("  " + newTask.toString());
             System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
-            System.out.println("____________________________________________________________");
+            System.out.println(SEPARATOR);
     }
 }
