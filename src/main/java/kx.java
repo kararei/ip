@@ -1,5 +1,10 @@
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class kx {
 
@@ -109,12 +114,29 @@ public class kx {
         System.out.println(SEPARATOR);
     }
 
-    private static void addTask(ArrayList<Task> tasks, Task newTask) {
+    private static void addTask(ArrayList<Task> tasks, Task newTask) throws IOException {
         tasks.add(newTask);
             System.out.println(SEPARATOR);
             System.out.println("  Got it. I've added this task:");
             System.out.println("  " + newTask.toString());
             System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
             System.out.println(SEPARATOR);
+    }
+
+    public static void dataStore(String input) throws IOException {
+        File data = new File("src/main/data/kx.txt");
+
+        if (!data.exists()) {
+            data.createNewFile();
+            System.out.println(SEPARATOR);
+            System.out.println("  Created new data file: kx.txt");
+            System.out.println(SEPARATOR);
+        } else {
+            FileWriter fw = new FileWriter("src/main/data/kx.txt");
+            fw.write(input);
+            fw.close();
+
+        }
+
     }
 }
