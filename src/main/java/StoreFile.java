@@ -48,8 +48,7 @@ public class StoreFile {
             } else if (type.equals("D")) {
                 task = new Deadlines(parts[2], parts[3]);
             } else if (type.equals("E")) {
-                String[] parts2 = parts[3].split("-");
-                task = new Events(parts[2], parts2[0], parts2[1]);
+                task = new Events(parts[2], parts[3], parts[4]);
             }
 
             if (task != null) {
