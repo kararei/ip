@@ -16,10 +16,13 @@ public class kx {
     private static Ui ui = new Ui();
 
     public static void main(String[] args) throws kxException {
+        new kx().run();
+    }
 
+    public void run() throws kxException {
         ArrayList<Task> taskList;
         try {
-           taskList = Storage.loadFile();
+            taskList = Storage.loadFile();
         } catch (IOException e) {
             ui.errorMessage(e.getMessage());
             taskList = new ArrayList<>();
@@ -33,7 +36,7 @@ public class kx {
 
         while (true) {
             String input = scanner.nextLine();
-            try{
+            try {
                 parser.userCommand(input);
             } catch (kxException e) {
                 ui.errorMessage(e.getMessage());

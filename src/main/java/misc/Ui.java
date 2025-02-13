@@ -44,7 +44,7 @@ public class Ui {
     public void deleteMessage (ArrayList<Task> taskList, Task currTask) {
         System.out.println(SEPARATOR);
         System.out.println("  Noted. I've removed this task:\n  " + currTask.toString());
-        System.out.println("  Now you have " + (taskList.size() + 1) + " tasks in the list.");
+        System.out.println("  Now you have " + (taskList.size()) + " tasks in the list.");
         System.out.println(SEPARATOR);
     }
 

@@ -30,6 +30,7 @@ public class Parser {
         switch (command) {
             case "bye":
                 ui.byeMessage();
+
                 break;
 
             case "list":

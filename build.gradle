@@ -28,14 +28,14 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("kx.kx")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "kx"
     archiveClassifier = null
 }
 
-run{
+run {
     standardInput = System.in
 }
