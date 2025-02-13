@@ -16,15 +16,13 @@ public abstract class Task {
 
 
 
-    public String markAsDone() {
+    public void markAsDone() {
         this.isDone = true;
-        return kx.SEPARATOR + "\n  Nice! I've marked this task as done:\n  " + this.toString() + "\n" + kx.SEPARATOR;
     }
 
 
-    public String markAsUndone() {
+    public void markAsUndone() {
         this.isDone = false;
-        return kx.SEPARATOR + "\n  OK, I've marked this task as not done yet:\n  " + this.toString() + "\n" + kx.SEPARATOR;
     }
 
     @Override
