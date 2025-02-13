@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.*;
 
 
-public class StoreFile {
+public class Storage {
 
     private static final String DIRECTORY = "./data";
     private static final String DATAPATH = "./data/kx.txt";
@@ -43,13 +43,12 @@ public class StoreFile {
             String[] parts = line.split(" \\| ");
             String type = parts[0];
 
-            if (type.equals("T")) {
-                task = new Todo(parts[2]);
-            } else if (type.equals("D")) {
-                task = new Deadlines(parts[2], parts[3]);
-            } else if (type.equals("E")) {
-                task = new Events(parts[2], parts[3], parts[4]);
-            }
+            task = switch (type) {
+                case "T" -> new Todo(parts[2]);
+                case "D" -> new Deadlines(parts[2], parts[3]);
+                case "E" -> new Events(parts[2], parts[3], parts[4]);
+                default -> task;
+            };
 
             if (task != null) {
                 if (parts[1].equals("1")) {
