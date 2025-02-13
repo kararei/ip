@@ -1,3 +1,7 @@
+package misc;
+
+import task.Task;
+
 import java.util.ArrayList;
 
 public class Ui {
@@ -5,7 +9,7 @@ public class Ui {
 
     public void helloMessage() {
         System.out.println(SEPARATOR);
-        System.out.println("  Hello! I'm kx, the kai xin bot!\n  What can I do for you?");
+        System.out.println("  Hello! I'm kx.kx, the kai xin bot!\n  What can I do for you?");
         System.out.println(SEPARATOR);
     }
 

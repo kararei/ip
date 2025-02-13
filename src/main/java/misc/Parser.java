@@ -1,3 +1,10 @@
+package misc;
+
+import task.Deadlines;
+import task.Events;
+import task.Task;
+import task.Todo;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -38,7 +45,7 @@ public class Parser {
                 try {
                     Storage.updateFile(taskList);
                 } catch (IOException e) {
-                    System.out.println("Error in updating Storage: " + e.getMessage());
+                    System.out.println("Error in updating misc.Storage: " + e.getMessage());
                 }
 
                 break;
@@ -52,7 +59,7 @@ public class Parser {
                 try {
                     Storage.updateFile(taskList);
                 } catch (IOException e) {
-                    System.out.println("Error in updating Storage: " + e.getMessage());
+                    System.out.println("Error in updating misc.Storage: " + e.getMessage());
                 }
 
                 break;
@@ -137,7 +144,7 @@ public class Parser {
                 try {
                     Storage.updateFile(taskList);
                 } catch (IOException e) {
-                    System.out.println("Error in updating Storage: " + e.getMessage());
+                    System.out.println("Error in updating misc.Storage: " + e.getMessage());
                 }
                 break;
             default:

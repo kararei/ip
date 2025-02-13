@@ -1,3 +1,10 @@
+package misc;
+
+import task.Deadlines;
+import task.Events;
+import task.Task;
+import task.Todo;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
