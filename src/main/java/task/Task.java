@@ -16,12 +16,9 @@ public abstract class Task {
 
     public abstract String getTaskType();
 
-
-
     public void markAsDone() {
         this.isDone = true;
     }
-
 
     public void markAsUndone() {
         this.isDone = false;
@@ -33,6 +30,4 @@ public abstract class Task {
     }
 
     public abstract String toFileFormat();
-
-
 }

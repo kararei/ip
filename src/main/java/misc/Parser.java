@@ -1,7 +1,7 @@
 package misc;
 
-import task.Deadlines;
-import task.Events;
+import task.Deadline;
+import task.Event;
 import task.Task;
 import task.Todo;
 
@@ -78,7 +78,7 @@ public class Parser {
                     throw new kxException("  ERROR! The description must include both the task and the deadline.");
                 }
 
-                Deadlines newTask = new Deadlines(outputs[0], outputs[1]);
+                Deadline newTask = new Deadline(outputs[0], outputs[1]);
                 taskList.add(newTask);
                 ui.addTaskMessage(taskList, newTask);
                 // Update changes
@@ -115,15 +115,17 @@ public class Parser {
                 String[] outputs = input[1].split(" /from ");
                 // check for both task and event
                 if (outputs.length != 2) {
-                    throw new kxException("  ERROR! The description must include the event, start, and end timings. It cannot be empty.");
+                    throw new kxException("  ERROR! The description must include the event, start, and end timings." +
+                            " It cannot be empty.");
                 }
 
                 String[] outputs2 = outputs[1].split(" /to ");
                 // check for both task and event
                 if (outputs2.length != 2) {
-                    throw new kxException("  ERROR! The description must include the start and end timings. It cannot be empty.");
+                    throw new kxException("  ERROR! The description must include the start and end timings." +
+                            " It cannot be empty.");
                 }
-                Events newTask = new Events(outputs[0], outputs2[0], outputs2[1]);
+                Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
                 taskList.add(newTask);
                 ui.addTaskMessage(taskList, newTask);
 
