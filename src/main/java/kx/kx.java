@@ -10,15 +10,26 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-
+/**
+ * Main class for running the chatbot.
+ */
 public class kx {
 
     private static Ui ui = new Ui();
 
+    /**
+     * Point of entry of the application.
+     * @param args Command line arguments.
+     * @throws kxException Thrown if an error occurs during execution.
+     */
     public static void main(String[] args) throws kxException {
         new kx().run();
     }
 
+    /**
+     * Runs chatbot, loading stored tasks and processing user input through parser class.
+     * @throws kxException Thorwn if an error occurs during execution.
+     */
     public void run() throws kxException {
         ArrayList<Task> taskList;
         try {

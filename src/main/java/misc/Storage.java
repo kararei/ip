@@ -1,7 +1,7 @@
 package misc;
 
 import task.Deadlines;
-import task.Events;
+import task.Event;
 import task.Task;
 import task.Todo;
 
@@ -12,7 +12,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
 
-
+/**
+ * Handles storage methods for updating and loading tasks from a file.
+ */
 public class Storage {
 
     private static final String DIRECTORY = "./data";
@@ -20,22 +22,29 @@ public class Storage {
     public static final String SEPARATOR = "____________________________________________________________";
 
 
-
+    /**
+     * Updates the storage file with the current list of tasks.
+     * @param tasklist The list of tasks to be saved.
+     * @throws IOException Thrown if an error occurs during file writing.
+     */
     public static void updateFile(ArrayList<Task> tasklist) throws IOException {
         Path directory = Paths.get(DIRECTORY);
         //System.out.println("updating file");
         if (!Files.exists(directory)) {
             Files.createDirectory(directory);
         }
-        //System.out.println("directory created");
         try (FileWriter file = new FileWriter(DATAPATH)) {
             for (Task task : tasklist) {
                 file.write(task.toFileFormat());
-                //System.out.println("task added");
             }
         }
     }
 
+    /**
+     * Loads tasks from the saved storage file.
+     * @return An ArrayList containing the loaded tasks from the previous session.
+     * @throws IOException Thrown if an error occurs during file reading.
+     */
     public static ArrayList<Task> loadFile() throws IOException {
         ArrayList<Task> taskList = new ArrayList<>();
         File file = new File(DATAPATH);
@@ -53,7 +62,7 @@ public class Storage {
             task = switch (type) {
                 case "T" -> new Todo(parts[2]);
                 case "D" -> new Deadlines(parts[2], parts[3]);
-                case "E" -> new Events(parts[2], parts[3], parts[4]);
+                case "E" -> new Event(parts[2], parts[3], parts[4]);
                 default -> task;
             };
 
@@ -62,7 +71,6 @@ public class Storage {
                     task.markAsDone();
                 }
             }
-
             if (task != null) {
                 taskList.add(task);
             }

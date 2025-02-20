@@ -1,24 +1,36 @@
 package misc;
 
 import task.Deadlines;
-import task.Events;
+import task.Event;
 import task.Task;
 import task.Todo;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Handles user commands parsing and executes corresponding actions.
+ */
 public class Parser {
 
     private Ui ui;
     private ArrayList<Task> taskList;
 
-
+    /**
+     * Constructs a Parser object.
+     * @param ui The user interactions object for this Parse.
+     * @param taskList The list of tasks.
+     */
     public Parser(Ui ui, ArrayList<Task> taskList) {
         this.ui = ui;
         this.taskList = taskList;
     }
 
+    /**
+     * Parses user input and executes the corresponding command.
+     * @param message The input command from the user.
+     * @throws kxException If the command is invalid or missing necessary details.
+     */
     public void userCommand(String message) throws kxException {
         String[] input = message.split(" ", 2);
         String command = input[0];
@@ -30,43 +42,29 @@ public class Parser {
         switch (command) {
             case "bye":
                 ui.byeMessage();
-
                 break;
 
             case "list":
                 ui.listTaskMessage(taskList);
-
                 break;
+
             case "mark": {
                 Task task = taskList.get(Integer.parseInt(input[1]) - 1);
                 task.markAsDone();
                 ui.markMessage(task);
-
-                //Update changes
-                try {
-                    Storage.updateFile(taskList);
-                } catch (IOException e) {
-                    System.out.println("Error in updating misc.Storage: " + e.getMessage());
-                }
-
+                updateStorage();
                 break;
             }
+
             case "unmark": {
                 Task task = taskList.get(Integer.parseInt(input[1]) - 1);
                 task.markAsUndone();
                 ui.unmarkMessage(task);
-
-                // Update changes
-                try {
-                    Storage.updateFile(taskList);
-                } catch (IOException e) {
-                    System.out.println("Error in updating misc.Storage: " + e.getMessage());
-                }
-
+                updateStorage();
                 break;
             }
-            case "deadline": {
 
+            case "deadline": {
                 // check for /by
                 if (!input[1].contains(" /by ")) {
                     throw new kxException("  ERROR! The description of a deadline must include /by.");
@@ -81,28 +79,14 @@ public class Parser {
                 Deadlines newTask = new Deadlines(outputs[0], outputs[1]);
                 taskList.add(newTask);
                 ui.addTaskMessage(taskList, newTask);
-                // Update changes
-                try {
-                    Storage.updateFile(taskList);
-                } catch (IOException e) {
-                    ui.errorMessage(e.getMessage());
-                }
-
-
+                updateStorage();
                 break;
             }
             case "todo": {
                 Todo newTask = new Todo(input[1]);
                 taskList.add(newTask);
                 ui.addTaskMessage(taskList, newTask);
-
-                // Update changes
-                try {
-                    Storage.updateFile(taskList);
-                } catch (IOException e) {
-                    ui.errorMessage(e.getMessage());
-                }
-
+                updateStorage();
                 break;
             }
             case "event": {
@@ -123,34 +107,31 @@ public class Parser {
                 if (outputs2.length != 2) {
                     throw new kxException("  ERROR! The description must include the start and end timings. It cannot be empty.");
                 }
-                Events newTask = new Events(outputs[0], outputs2[0], outputs2[1]);
+                Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
                 taskList.add(newTask);
                 ui.addTaskMessage(taskList, newTask);
-
-                // Update changes
-                try {
-                    Storage.updateFile(taskList);
-                } catch (IOException e) {
-                    ui.errorMessage(e.getMessage());
-                }
-
+                updateStorage();
                 break;
             }
             case "delete":
                 Task currTask = taskList.get(Integer.parseInt(input[1]) - 1);
                 taskList.remove(Integer.parseInt(input[1]) - 1);
                 ui.deleteMessage(taskList, currTask);
-
-                // Update changes
-                try {
-                    Storage.updateFile(taskList);
-                } catch (IOException e) {
-                    System.out.println("Error in updating misc.Storage: " + e.getMessage());
-                }
+                updateStorage();
                 break;
             default:
                 throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
         }
     }
 
+    /**
+     * Updates the storage file with new task list.
+     */
+    private void updateStorage() {
+        try {
+            Storage.updateFile(taskList);
+        } catch (IOException e) {
+            ui.errorMessage("Error in updating storage: " + e.getMessage());
+        }
+    }
 }
