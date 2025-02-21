@@ -41,25 +41,36 @@ public class Ui {
         System.out.println(SEPARATOR);
     }
 
-    public void deleteMessage (ArrayList<Task> taskList, Task currTask) {
+    public void deleteMessage(ArrayList<Task> taskList, Task currTask) {
         System.out.println(SEPARATOR);
         System.out.println("  Noted. I've removed this task:\n  " + currTask.toString());
         System.out.println("  Now you have " + (taskList.size()) + " tasks in the list.");
         System.out.println(SEPARATOR);
     }
 
-    public void markMessage (Task task) {
+    public void markMessage(Task task) {
         System.out.println(SEPARATOR);
         System.out.println("  Nice! I've marked this task as done:\n  " + task.toString());
         System.out.println(SEPARATOR);
     }
 
-    public void unmarkMessage (Task task) {
+    public void unmarkMessage(Task task) {
         System.out.println(SEPARATOR);
         System.out.println("  OK, I've marked this task as not done yet:\n  " + task.toString());
         System.out.println(SEPARATOR);
     }
 
-
-
+    public void findMessage(ArrayList<Task> matchingTaskList) {
+        System.out.println(SEPARATOR);
+        System.out.println("  Here are the matching tasks in your list:\n  ");
+        if (matchingTaskList.isEmpty()) {
+            System.out.println("  No matching tasks found.");
+        } else {
+            for (int i = 0; i < matchingTaskList.size(); i++) {
+                Task curr = matchingTaskList.get(i);
+                System.out.println("  " + (i + 1) + ". " + curr.toString());
+            }
+        }
+        System.out.println(SEPARATOR);
+    }
 }
