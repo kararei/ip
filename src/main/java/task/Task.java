@@ -60,6 +60,4 @@ public abstract class Task {
      * @return A formatted string representing the task for a file
      */
     public abstract String toFileFormat();
-
-
 }

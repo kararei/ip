@@ -1,6 +1,6 @@
 package misc;
 
-import task.Deadlines;
+import task.Deadline;
 import task.Event;
 import task.Task;
 import task.Todo;
@@ -61,7 +61,7 @@ public class Storage {
 
             task = switch (type) {
                 case "T" -> new Todo(parts[2]);
-                case "D" -> new Deadlines(parts[2], parts[3]);
+                case "D" -> new Deadline(parts[2], parts[3]);
                 case "E" -> new Event(parts[2], parts[3], parts[4]);
                 default -> task;
             };

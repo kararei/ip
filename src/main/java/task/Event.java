@@ -11,9 +11,8 @@ public class Event extends Task {
 
     protected LocalDateTime from;
     protected LocalDateTime to;
-    private static final DateTimeFormatter input_formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
-    private static final DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
-    private static final DateTimeFormatter file_formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
+    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
 
     /**
      * Constructs a new Event task.
@@ -25,17 +24,18 @@ public class Event extends Task {
         super(description);
 
         try {
-            this.from = LocalDateTime.parse(from, input_formatter);
+            this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
         }
 
         try {
-            this.to = LocalDateTime.parse(to, input_formatter);
+            this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
         }
     }
+
     /**
      * Obtain type of task.
      * @return A string representing the task type "E" for Event.
@@ -51,7 +51,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from.format(output_formatter) + " to: " + to.format(output_formatter) + ")";
+        return "[E]" + super.toString() + " (from: " + from.format(OUTPUT_FORMATTER) + " to: "
+                + to.format(OUTPUT_FORMATTER) + ")";
     }
 
     /**
@@ -60,7 +61,7 @@ public class Event extends Task {
      */
     @Override
     public String toFileFormat() {
-        String output = String.format("E | %d | %s | %s | %s\n", isDone ? 1 : 0, description, from.format(input_formatter), to.format(input_formatter));
-        return output;
+        return String.format("E | %d | %s | %s | %s\n", isDone ? 1 : 0, description, from.format(INPUT_FORMATTER),
+                to.format(INPUT_FORMATTER));
     }
 }

@@ -7,22 +7,21 @@ import java.time.format.DateTimeParseException;
 /**
  * Represents a Deadline task with a description and a due date that extends the General Task class.
  */
-public class Deadlines extends Task {
+public class Deadline extends Task {
 
     protected LocalDateTime by;
-    private static final DateTimeFormatter input_formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
-    private static final DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
-    private static final DateTimeFormatter file_formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
+    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
 
     /**
      * Constructs a new Deadline task.
      * @param description The description of the Deadline task.
      * @param by The due date and time of the Deadline in "dd-MM-yyyy HHmm" format.
      */
-    public Deadlines(String description, String by) {
+    public Deadline(String description, String by) {
         super(description);
         try {
-            this.by = LocalDateTime.parse(by, input_formatter);
+            this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
         }
@@ -43,7 +42,7 @@ public class Deadlines extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by.format(output_formatter) + ")";
+        return "[D]" + super.toString() + " (by: " + by.format(OUTPUT_FORMATTER) + ")";
     }
 
     /**
@@ -52,7 +51,6 @@ public class Deadlines extends Task {
      */
     @Override
     public String toFileFormat() {
-        String output = String.format("D | %d | %s | %s\n", isDone ? 1 : 0, description, by.format(input_formatter));
-        return output;
+        return String.format("D | %d | %s | %s\n", isDone ? 1 : 0, description, by.format(INPUT_FORMATTER));
     }
 }
