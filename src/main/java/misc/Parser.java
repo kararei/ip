@@ -115,13 +115,26 @@ public class Parser {
                 updateStorage();
                 break;
             }
-            case "delete":
+            case "delete": {
                 Task currTask = taskList.get(Integer.parseInt(input[1]) - 1);
                 taskList.remove(Integer.parseInt(input[1]) - 1);
                 ui.deleteMessage(taskList, currTask);
                 updateStorage();
                 break;
 
+            }
+            case "find": {
+                String keyword = input[1];
+                ArrayList<Task> matchingTaskList = new ArrayList<>();
+                for (Task task : taskList) {
+                    String description = task.getDescription();
+                    if (description.contains(keyword)) {
+                        matchingTaskList.add(task);
+                    }
+                }
+                ui.findMessage(matchingTaskList);
+                break;
+            }
             default:
                 throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
         }

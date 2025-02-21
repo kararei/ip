@@ -32,6 +32,10 @@ public abstract class Task {
      */
     public abstract String getTaskType();
 
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Marks the task as completed.
      */

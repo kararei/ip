@@ -95,6 +95,17 @@ public class Ui {
         System.out.println(SEPARATOR);
     }
 
-
-
+    public void findMessage(ArrayList<Task> matchingTaskList) {
+        System.out.println(SEPARATOR);
+        System.out.println("  Here are the matching tasks in your list:\n  ");
+        if (matchingTaskList.isEmpty()) {
+            System.out.println("  No matching tasks found.");
+        } else {
+            for (int i = 0; i < matchingTaskList.size(); i++) {
+                Task curr = matchingTaskList.get(i);
+                System.out.println("  " + (i + 1) + ". " + curr.toString());
+            }
+        }
+        System.out.println(SEPARATOR);
+    }
 }
