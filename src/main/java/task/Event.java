@@ -24,12 +24,14 @@ public class Event extends Task {
         super(description);
 
         try {
+            assert this.from == null: "Parsed DateTime object 'from' should not be null";
             this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
         }
 
         try {
+            assert this.to == null: "Parsed DateTime object 'to' should not be null";
             this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
@@ -51,6 +53,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
+        assert description != null : "Description should not be null when converting to string output";
         return "[E]" + super.toString() + " (from: " + from.format(OUTPUT_FORMATTER) + " to: "
                 + to.format(OUTPUT_FORMATTER) + ")";
     }
@@ -61,6 +64,7 @@ public class Event extends Task {
      */
     @Override
     public String toFileFormat() {
+        assert description != null : "Description should not be null before saving to file";
         return String.format("E | %d | %s | %s | %s\n", isDone ? 1 : 0, description, from.format(INPUT_FORMATTER),
                 to.format(INPUT_FORMATTER));
     }

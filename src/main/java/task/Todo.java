@@ -28,6 +28,7 @@ public class Todo extends Task {
      */
     @Override
     public String toString() {
+        assert description != null : "Description should not be null when converting to string output";
         return "[T]" + super.toString();
     }
 
@@ -37,7 +38,7 @@ public class Todo extends Task {
      */
     @Override
     public String toFileFormat() {
-        String output = String.format("T | %d | %s\n", isDone ? 1 : 0, description);
-        return output;
+        assert description != null : "Description should not be null before saving to file";
+        return String.format("T | %d | %s\n", isDone ? 1 : 0, description);
     }
 }
