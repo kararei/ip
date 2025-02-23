@@ -18,6 +18,7 @@ public class kx {
     private static Ui ui = new Ui();
     private ArrayList<Task> taskList = new ArrayList<>();
     private Parser parser;
+    private String helloMessage;
     /**
      * Point of entry of the application.
      * Runs chatbot, loading stored tasks and processing user input through parser class.
@@ -29,7 +30,9 @@ public class kx {
             ui.errorMessage(e.getMessage());
             taskList = new ArrayList<>();
         }
-        //ui.helloMessage();
+
+        helloMessage = ui.helloMessage();
+
         parser = new Parser(ui,taskList);
     }
 
@@ -42,5 +45,9 @@ public class kx {
         }
 
 
+    }
+
+    public String getHelloMessage() {
+        return helloMessage;
     }
 }

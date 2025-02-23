@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -36,6 +39,7 @@ public class MainWindow extends AnchorPane {
     /** Injects the Duke instance */
     public void setKaixin(kx k) {
         kaixin = k;
+        dialogContainer.getChildren().add(DialogBox.getKaixinDialog(kaixin.getHelloMessage(), kxImage));
     }
 
     /**
@@ -51,6 +55,12 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getKaixinDialog(response, kxImage)
         );
         userInput.clear();
+
+        if (input.equals("bye")) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(2));
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
+        }
     }
 }
 
