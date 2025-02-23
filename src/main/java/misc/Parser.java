@@ -39,95 +39,97 @@ public class Parser {
             throw new kxException("  ERROR! The description of a task cannot be empty.");
         }
 
-        switch (command) {
-            case "bye":
-                return ui.byeMessage();
+        return switch (command) {
+            case "bye" -> ui.byeMessage();
+            case "list" -> ui.listTaskMessage(taskList);
+            case "mark" -> markCommand(input);
+            case "unmark" -> unmarkCommand(input);
+            case "deadline" -> deadlineCommand(input);
+            case "todo" -> todoCommand(input);
+            case "event" -> eventCommand(input);
+            case "delete" -> deleteCommand(input);
+            case "find" -> findCommand(input);
+            default -> throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
+        };
+    }
 
-            case "list":
-                return ui.listTaskMessage(taskList);
+    private String markCommand(String[] input) {
+        Task task = taskList.get(Integer.parseInt(input[1]) - 1);
+        task.markAsDone();
+        updateStorage();
+        return ui.markMessage(task);
+    }
 
-            case "mark": {
-                Task task = taskList.get(Integer.parseInt(input[1]) - 1);
-                task.markAsDone();
-                updateStorage();
-                return ui.markMessage(task);
-            }
+    private String unmarkCommand(String[] input) {
+        Task task = taskList.get(Integer.parseInt(input[1]) - 1);
+        task.markAsUndone();
+        updateStorage();
+        return ui.unmarkMessage(task);
+    }
 
-            case "unmark": {
-                Task task = taskList.get(Integer.parseInt(input[1]) - 1);
-                task.markAsUndone();
-                updateStorage();
-                return ui.unmarkMessage(task);
-            }
-
-            case "deadline": {
-                // check for /by
-                if (!input[1].contains(" /by ")) {
-                    throw new kxException("  ERROR! The description of a deadline must include /by.");
-                }
-                String[] outputs = input[1].split(" /by ");
-
-                // Check for both task and deadline on input
-                if (outputs.length != 2) {
-                    throw new kxException("  ERROR! The description must include both the task and the deadline.");
-                }
-
-                Deadline newTask = new Deadline(outputs[0], outputs[1]);
-                taskList.add(newTask);
-                updateStorage();
-                return ui.addTaskMessage(taskList, newTask);
-            }
-            case "todo": {
-                Todo newTask = new Todo(input[1]);
-                taskList.add(newTask);
-                updateStorage();
-                return ui.addTaskMessage(taskList, newTask);
-            }
-            case "event": {
-
-                if (!input[1].contains(" /from ") || !input[1].contains(" /to ")) {
-                    throw new kxException("  ERROR! The description of a deadline must include /from and /to.");
-                }
-
-                String[] outputs = input[1].split(" /from ");
-                // check for both task and event
-                if (outputs.length != 2) {
-                    throw new kxException("  ERROR! The description must include the event, start, and end timings." +
-                            " It cannot be empty.");
-                }
-
-                String[] outputs2 = outputs[1].split(" /to ");
-                // check for both task and event
-                if (outputs2.length != 2) {
-                    throw new kxException("  ERROR! The description must include the start and end timings." +
-                            " It cannot be empty.");
-                }
-                Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
-                taskList.add(newTask);
-                updateStorage();
-                return ui.addTaskMessage(taskList, newTask);
-            }
-            case "delete": {
-                Task currTask = taskList.get(Integer.parseInt(input[1]) - 1);
-                taskList.remove(Integer.parseInt(input[1]) - 1);
-                updateStorage();
-                updateStorage();
-                return ui.deleteMessage(taskList, currTask);
-            }
-            case "find": {
-                String keyword = input[1];
-                ArrayList<Task> matchingTaskList = new ArrayList<>();
-                for (Task task : taskList) {
-                    String description = task.getDescription();
-                    if (description.contains(keyword)) {
-                        matchingTaskList.add(task);
-                    }
-                }
-                return ui.findMessage(matchingTaskList);
-            }
-            default:
-                throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
+    private String deadlineCommand(String[] input) throws kxException {
+        if (!input[1].contains(" /by ")) {
+            throw new kxException("  ERROR! The description of a deadline must include /by.");
         }
+        String[] outputs = input[1].split(" /by ");
+
+        if (outputs.length != 2) {
+            throw new kxException("  ERROR! The description must include both the task and the deadline.");
+        }
+
+        Deadline newTask = new Deadline(outputs[0], outputs[1]);
+        return addTask(newTask);
+    }
+
+    private String todoCommand(String[] input) {
+        Todo newTask = new Todo(input[1]);
+        return addTask(newTask);
+    }
+
+    private String eventCommand(String[] input) throws kxException {
+        if (!input[1].contains(" /from ") || !input[1].contains(" /to ")) {
+            throw new kxException("  ERROR! The description of a deadline must include /from and /to.");
+        }
+
+        String[] outputs = input[1].split(" /from ");
+        if (outputs.length != 2) {
+            throw new kxException("  ERROR! The description must include the event, start, and end timings." +
+                    " It cannot be empty.");
+        }
+
+        String[] outputs2 = outputs[1].split(" /to ");
+        if (outputs2.length != 2) {
+            throw new kxException("  ERROR! The description must include the start and end timings." +
+                    " It cannot be empty.");
+        }
+        Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
+        return addTask(newTask);
+    }
+
+    private String deleteCommand(String[] input) {
+        Task currTask = taskList.get(Integer.parseInt(input[1]) - 1);
+        taskList.remove(Integer.parseInt(input[1]) - 1);
+        updateStorage();
+        updateStorage();
+        return ui.deleteMessage(taskList, currTask);
+    }
+
+    private String findCommand(String[] input) {
+        String keyword = input[1];
+        ArrayList<Task> matchingTaskList = new ArrayList<>();
+        for (Task task : taskList) {
+            String description = task.getDescription();
+            if (description.contains(keyword)) {
+                matchingTaskList.add(task);
+            }
+        }
+        return ui.findMessage(matchingTaskList);
+    }
+
+    private String addTask(Task newTask) {
+        taskList.add(newTask);
+        updateStorage();
+        return ui.addTaskMessage(taskList, newTask);
     }
 
     /**
