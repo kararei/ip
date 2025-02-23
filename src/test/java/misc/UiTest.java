@@ -14,6 +14,7 @@ import java.io.PrintStream;
 
 
 public class UiTest {
+    public static final String SEPARATOR = "____________________________________________________________";
 
     @Test
     public void testUi_helloMessage() {
@@ -22,7 +23,7 @@ public class UiTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        String helloMessage = "  Hello! I'm kx, the kai xin bot!\n  What can I do for you?";
+        String helloMessage = "  Hello! I'm Kx, the kai xin bot!\n  What can I do for you?";
 
         ui.helloMessage();
         String output = outputStream.toString();
@@ -42,11 +43,11 @@ public class UiTest {
         ui.addTaskMessage(taskList, task);
         String output = outputStream.toString();
 
-        String addTaskMessage = Ui.SEPARATOR + "\n"
+        String addTaskMessage = SEPARATOR + "\n"
                 + "  Got it. I've added this task:\n"
                 + "  " + task.toString() + "\n"
                 + "  Now you have " + taskList.size() + " tasks in the list.\n"
-                + Ui.SEPARATOR + "\n";
+                + SEPARATOR + "\n";
         assertTrue(output.contains(addTaskMessage));
     }
 

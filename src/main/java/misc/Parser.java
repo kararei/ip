@@ -85,7 +85,6 @@ public class Parser {
             }
             case "event": {
 
-                // check for /from and /to
                 if (!input[1].contains(" /from ") || !input[1].contains(" /to ")) {
                     throw new kxException("  ERROR! The description of a deadline must include /from and /to.");
                 }
