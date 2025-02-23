@@ -13,27 +13,23 @@ public class Ui {
     /**
      * Shows welcome/hello message when the program begins.
      */
-    public void helloMessage() {
-        System.out.println(SEPARATOR);
-        System.out.println("  Hello! I'm kx, the kai xin bot!\n  What can I do for you?");
-        System.out.println(SEPARATOR);
+    public String helloMessage() {
+        return "  Hello! I'm kx, the kai xin bot!\nWhat can I do for you?";
     }
 
     /**
      * Shows goodbye message when the program ends.
      */
-    public void byeMessage() {
-        System.out.println(SEPARATOR);
-        System.out.println("  Bye bye and hope to see you again soon!");
-        System.out.println(SEPARATOR);
+    public String byeMessage() {
+        return "Bye bye and hope to see you again soon!";
     }
 
     /**
      * Shows an error message.
      * @param message The error message to be concatenated and shown.
      */
-    public void errorMessage(String message) {
-        System.out.println("  ERROR!! \n" + message);
+    public String errorMessage(String message) {
+        return "ERROR!! \n" + message;
     }
 
     /**
@@ -41,26 +37,22 @@ public class Ui {
      * @param taskList The list of tasks.
      * @param newTask The new task added
      */
-    public void addTaskMessage(ArrayList<Task> taskList, Task newTask) {
-        System.out.println(SEPARATOR);
-        System.out.println("  Got it. I've added this task:");
-        System.out.println("  " + newTask.toString());
-        System.out.println("  Now you have " + taskList.size() + " tasks in the list.");
-        System.out.println(SEPARATOR);
+    public String addTaskMessage(ArrayList<Task> taskList, Task newTask) {
+        return "Got it. I've added this task:\n" + newTask.toString() +
+                "\nNow you have " + taskList.size() + " tasks in the list.";
     }
 
     /**
      * Shows the tasks in the task list.
      * @param taskList The list of tasks.
      */
-    public void listTaskMessage(ArrayList<Task> taskList) {
-        System.out.println(SEPARATOR);
-        System.out.println("  Here are the tasks in your list:");
+    public String listTaskMessage(ArrayList<Task> taskList) {
+        StringBuilder output = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < taskList.size(); i++) {
             Task curr = taskList.get(i);
-            System.out.println("  " + (i + 1) + ". " + curr.toString());
+            output.append(i + 1).append(". ").append(curr.toString()).append("\n");
         }
-        System.out.println(SEPARATOR);
+        return output.toString();
     }
 
     /**
@@ -68,44 +60,37 @@ public class Ui {
      * @param taskList The list of tasks.
      * @param currTask The removed task.
      */
-    public void deleteMessage (ArrayList<Task> taskList, Task currTask) {
-        System.out.println(SEPARATOR);
-        System.out.println("  Noted. I've removed this task:\n  " + currTask.toString());
-        System.out.println("  Now you have " + (taskList.size()) + " tasks in the list.");
-        System.out.println(SEPARATOR);
+    public String deleteMessage (ArrayList<Task> taskList, Task currTask) {
+        return "Noted. I've removed this task:\n" + currTask.toString() +
+                "\nNow you have " + (taskList.size()) + " tasks in the list.";
     }
 
     /**
      * Shows task is marked as done message.
      * @param task The task that gets marked as done.
      */
-    public void markMessage (Task task) {
-        System.out.println(SEPARATOR);
-        System.out.println("  Nice! I've marked this task as done:\n  " + task.toString());
-        System.out.println(SEPARATOR);
+    public String markMessage (Task task) {
+        return "Nice! I've marked this task as done:\n" + task.toString();
     }
 
     /**
      * Shows task is marked as not done message.
      * @param task The task that gets unmarked.
      */
-    public void unmarkMessage (Task task) {
-        System.out.println(SEPARATOR);
-        System.out.println("  OK, I've marked this task as not done yet:\n  " + task.toString());
-        System.out.println(SEPARATOR);
+    public String unmarkMessage (Task task) {
+        return "OK, I've marked this task as not done yet:\n" + task.toString();
     }
 
-    public void findMessage(ArrayList<Task> matchingTaskList) {
-        System.out.println(SEPARATOR);
-        System.out.println("  Here are the matching tasks in your list:\n  ");
+    public String findMessage(ArrayList<Task> matchingTaskList) {
+        StringBuilder output = new StringBuilder("Here are the matching tasks in your list:\n");
         if (matchingTaskList.isEmpty()) {
             System.out.println("  No matching tasks found.");
         } else {
             for (int i = 0; i < matchingTaskList.size(); i++) {
                 Task curr = matchingTaskList.get(i);
-                System.out.println("  " + (i + 1) + ". " + curr.toString());
+                output.append(i + 1).append(". ").append(curr.toString()).append("\n");
             }
         }
-        System.out.println(SEPARATOR);
+        return output.toString();
     }
 }
