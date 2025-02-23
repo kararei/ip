@@ -31,7 +31,7 @@ public class Parser {
      * @param message The input command from the user.
      * @throws kxException If the command is invalid or missing necessary details.
      */
-    public void userCommand(String message) throws kxException {
+    public String userCommand(String message) throws kxException {
         String[] input = message.split(" ", 2);
         String command = input[0];
 
@@ -41,27 +41,23 @@ public class Parser {
 
         switch (command) {
             case "bye":
-                ui.byeMessage();
-                break;
+                return ui.byeMessage();
 
             case "list":
-                ui.listTaskMessage(taskList);
-                break;
+                return ui.listTaskMessage(taskList);
 
             case "mark": {
                 Task task = taskList.get(Integer.parseInt(input[1]) - 1);
                 task.markAsDone();
-                ui.markMessage(task);
                 updateStorage();
-                break;
+                return ui.markMessage(task);
             }
 
             case "unmark": {
                 Task task = taskList.get(Integer.parseInt(input[1]) - 1);
                 task.markAsUndone();
-                ui.unmarkMessage(task);
                 updateStorage();
-                break;
+                return ui.unmarkMessage(task);
             }
 
             case "deadline": {
@@ -78,16 +74,14 @@ public class Parser {
 
                 Deadline newTask = new Deadline(outputs[0], outputs[1]);
                 taskList.add(newTask);
-                ui.addTaskMessage(taskList, newTask);
                 updateStorage();
-                break;
+                return ui.addTaskMessage(taskList, newTask);
             }
             case "todo": {
                 Todo newTask = new Todo(input[1]);
                 taskList.add(newTask);
-                ui.addTaskMessage(taskList, newTask);
                 updateStorage();
-                break;
+                return ui.addTaskMessage(taskList, newTask);
             }
             case "event": {
 
@@ -111,17 +105,15 @@ public class Parser {
                 }
                 Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
                 taskList.add(newTask);
-                ui.addTaskMessage(taskList, newTask);
                 updateStorage();
-                break;
+                return ui.addTaskMessage(taskList, newTask);
             }
             case "delete": {
                 Task currTask = taskList.get(Integer.parseInt(input[1]) - 1);
                 taskList.remove(Integer.parseInt(input[1]) - 1);
-                ui.deleteMessage(taskList, currTask);
                 updateStorage();
-                break;
-
+                updateStorage();
+                return ui.deleteMessage(taskList, currTask);
             }
             case "find": {
                 String keyword = input[1];
@@ -132,8 +124,7 @@ public class Parser {
                         matchingTaskList.add(task);
                     }
                 }
-                ui.findMessage(matchingTaskList);
-                break;
+                return ui.findMessage(matchingTaskList);
             }
             default:
                 throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
