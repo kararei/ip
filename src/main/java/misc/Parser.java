@@ -54,14 +54,20 @@ public class Parser {
     }
 
     private String markCommand(String[] input) {
-        Task task = taskList.get(Integer.parseInt(input[1]) - 1);
+        int index = Integer.parseInt(input[1]) -1;
+        assert index >= 0 && index < taskList.size() : "Invalid task index: " + index;
+
+        Task task = taskList.get(index);
         task.markAsDone();
         updateStorage();
         return ui.markMessage(task);
     }
 
     private String unmarkCommand(String[] input) {
-        Task task = taskList.get(Integer.parseInt(input[1]) - 1);
+        int index = Integer.parseInt(input[1]) -1;
+        assert index >= 0 && index < taskList.size() : "Invalid task index: " + index;
+
+        Task task = taskList.get(index);
         task.markAsUndone();
         updateStorage();
         return ui.unmarkMessage(task);
@@ -72,10 +78,8 @@ public class Parser {
             throw new kxException("  ERROR! The description of a deadline must include /by.");
         }
         String[] outputs = input[1].split(" /by ");
-
-        if (outputs.length != 2) {
-            throw new kxException("  ERROR! The description must include both the task and the deadline.");
-        }
+        assert outputs.length == 2 : "Deadline task should have exactly two parts: " +
+                "The task description and the deadline.";
 
         Deadline newTask = new Deadline(outputs[0], outputs[1]);
         return addTask(newTask);
@@ -92,24 +96,21 @@ public class Parser {
         }
 
         String[] outputs = input[1].split(" /from ");
-        if (outputs.length != 2) {
-            throw new kxException("  ERROR! The description must include the event, start, and end timings." +
-                    " It cannot be empty.");
-        }
+        assert outputs.length == 2 : "Event task description must contain the event, start and end timings.";
 
         String[] outputs2 = outputs[1].split(" /to ");
-        if (outputs2.length != 2) {
-            throw new kxException("  ERROR! The description must include the start and end timings." +
-                    " It cannot be empty.");
-        }
+        assert outputs2.length == 2 : "Event task description must contain the event, start and end timings.";
+
         Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
         return addTask(newTask);
     }
 
     private String deleteCommand(String[] input) {
-        Task currTask = taskList.get(Integer.parseInt(input[1]) - 1);
-        taskList.remove(Integer.parseInt(input[1]) - 1);
-        updateStorage();
+        int index = Integer.parseInt(input[1]) -1;
+        assert index >= 0 && index < taskList.size() : "Invalid task index: " + index;
+
+        Task currTask = taskList.get(index);
+        taskList.remove(index);
         updateStorage();
         return ui.deleteMessage(taskList, currTask);
     }

@@ -21,6 +21,7 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         try {
+            assert this.by == null: "Parsed DateTime object 'by' should not be null";
             this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
@@ -42,6 +43,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
+        assert description != null : "Description should not be null when converting to string output";
         return "[D]" + super.toString() + " (by: " + by.format(OUTPUT_FORMATTER) + ")";
     }
 
@@ -51,6 +53,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toFileFormat() {
+        assert description != null : "Description should not be null when converting to file format";
         return String.format("D | %d | %s | %s\n", isDone ? 1 : 0, description, by.format(INPUT_FORMATTER));
     }
 }

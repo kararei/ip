@@ -33,6 +33,7 @@ public class Storage {
         }
         try (FileWriter file = new FileWriter(DATAPATH)) {
             for (Task task : tasklist) {
+                assert task != null : "Task should not be null while saving to file";
                 file.write(task.toFileFormat());
             }
         }
