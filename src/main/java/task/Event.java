@@ -1,5 +1,6 @@
 package task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -36,6 +37,12 @@ public class Event extends Task {
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
         }
+    }
+
+    public boolean occursOn(LocalDate selectedDate) {
+        LocalDate fromLD = from.toLocalDate();
+        LocalDate toLD = to.toLocalDate();
+        return !selectedDate.isBefore(fromLD) && !selectedDate.isAfter(toLD);
     }
 
     /**

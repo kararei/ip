@@ -1,5 +1,6 @@
 package task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,6 +27,9 @@ public class Deadline extends Task {
         } catch (DateTimeParseException e) {
             System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
         }
+    }
+    public LocalDate getBy() {
+        return by.toLocalDate();
     }
 
     /**

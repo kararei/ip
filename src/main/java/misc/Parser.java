@@ -5,7 +5,13 @@ import task.Event;
 import task.Task;
 import task.Todo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -49,6 +55,7 @@ public class Parser {
             case "event" -> eventCommand(input);
             case "delete" -> deleteCommand(input);
             case "find" -> findCommand(input);
+            case "view" -> viewCommand(input);
             default -> throw new kxException("  ERROR! I'm sorry, but I am unable to handle that command yet :(");
         };
     }
@@ -125,6 +132,36 @@ public class Parser {
             }
         }
         return ui.findMessage(matchingTaskList);
+    }
+
+    private String viewCommand(String[] input) throws kxException {
+        if (input.length < 2) {
+            throw new kxException("Please specify a date in yyyy-MM-dd format.");
+        }
+        LocalDate selectedDate;
+        try {
+            selectedDate = LocalDate.parse(input[1], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            throw new kxException("Invalid date format, date must be in use yyyy-MM-dd.");
+        }
+
+        ArrayList<Task> tasksOnDate = new ArrayList<>();
+        for (Task task : taskList) {
+            if (task instanceof Deadline && ((Deadline) task).getBy().isEqual(selectedDate)) {
+                tasksOnDate.add(task);
+            } else if (task instanceof Event && ((Event) task).occursOn(selectedDate)) {
+                tasksOnDate.add(task);
+            }
+        }
+        if (tasksOnDate.isEmpty()) {
+            return "No tasks scheduled for " + selectedDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+        }
+        StringBuilder output = new StringBuilder("Tasks scheduled for " +
+                selectedDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ":\n");
+        for (int i = 0; i < tasksOnDate.size(); i++) {
+            output.append(i + 1).append(". ").append(tasksOnDate.get(i)).append("\n");
+        }
+        return output.toString();
     }
 
     private String addTask(Task newTask) {
