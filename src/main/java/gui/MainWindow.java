@@ -1,6 +1,6 @@
 package gui;
 
-import kx.kx;
+import kx.Kx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +17,9 @@ import javafx.util.Duration;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    private static final String EXIT_COMMAND = "bye";
+    private static final double EXIT_DELAY = 2.0; // In seconds
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -26,18 +29,23 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
-    private kx kaixin;
-
+    private Kx kaixin;
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
     private Image kxImage = new Image(this.getClass().getResourceAsStream("/images/Kaixin.png"));
 
+    /**
+     * Binds the scroll pane to the dialog container for auto scrolling.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
-    public void setKaixin(kx k) {
+    /**
+     * Injects the Kx instance and displays a welcome message.
+     * @param k The chatbot instance.
+     */
+    public void setKaixin(Kx k) {
         kaixin = k;
         dialogContainer.getChildren().add(DialogBox.getKaixinDialog(kaixin.getHelloMessage(), kxImage));
     }
@@ -56,8 +64,8 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
 
-        if (input.equals("bye")) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        if (input.equals(EXIT_COMMAND)) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(EXIT_DELAY));
             delay.setOnFinished(event -> Platform.exit());
             delay.play();
         }
