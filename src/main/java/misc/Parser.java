@@ -60,9 +60,13 @@ public class Parser {
         };
     }
 
-    private String markCommand(String[] input) {
+    private String markCommand(String[] input) throws kxException {
         int index = Integer.parseInt(input[1]) -1;
-        assert index >= 0 && index < taskList.size() : "Invalid task index: " + index;
+
+        if (index < 0 || index >= taskList.size()) {
+            throw new kxException("Invalid task index: " + (index + 1) +
+                    "\nindex should be between 1 and the total number of tasks");
+        }
 
         Task task = taskList.get(index);
         task.markAsDone();
@@ -70,9 +74,13 @@ public class Parser {
         return ui.markMessage(task);
     }
 
-    private String unmarkCommand(String[] input) {
+    private String unmarkCommand(String[] input) throws kxException {
         int index = Integer.parseInt(input[1]) -1;
-        assert index >= 0 && index < taskList.size() : "Invalid task index: " + index;
+
+        if (index < 0 || index >= taskList.size()) {
+            throw new kxException("Invalid task index: " + (index + 1) +
+                    "\nindex should be between 1 and the total number of tasks");
+        }
 
         Task task = taskList.get(index);
         task.markAsUndone();
