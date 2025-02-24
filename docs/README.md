@@ -1,6 +1,6 @@
 # kx (Kai Xin) - Task Management Chatbot
 
-<div align="center">
+<div align ="center">
 
 A command-line task management chatbot that helps you stay organized efficiently.
 
