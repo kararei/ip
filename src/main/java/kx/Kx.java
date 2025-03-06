@@ -39,6 +39,8 @@ public class Kx {
         } catch (IOException e) {
             ui.errorMessage(e.getMessage());
             return new ArrayList<>();
+        } catch (kxException e) {
+            throw new RuntimeException(e);
         }
     }
 

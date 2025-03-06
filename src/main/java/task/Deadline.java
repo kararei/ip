@@ -1,5 +1,6 @@
 package task;
 
+import misc.kxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,13 +20,14 @@ public class Deadline extends Task {
      * @param description The description of the Deadline task.
      * @param by The due date and time of the Deadline in "dd-MM-yyyy HHmm" format.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws kxException{
         super(description);
+        assert by != null : "Date string 'by' should not be null";
+
         try {
-            assert this.by == null: "Parsed DateTime object 'by' should not be null";
             this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
+            throw new kxException("Error in Input format: Input after /by should follow dd-MM-yyyy HHmm format");
         }
     }
     public LocalDate getBy() {

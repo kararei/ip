@@ -45,7 +45,7 @@ public class Storage {
      * @return An ArrayList containing the loaded tasks from the previous session.
      * @throws IOException Thrown if an error occurs during file reading.
      */
-    public static ArrayList<Task> loadFile() throws IOException {
+    public static ArrayList<Task> loadFile() throws IOException, kxException {
         ArrayList<Task> taskList = new ArrayList<>();
         File file = new File(DATAPATH);
 
@@ -70,7 +70,7 @@ public class Storage {
      * @param line The line describing a task.
      * @return The corresponding Task object or null if parsing fails.
      */
-    private static Task parseTask(String line) {
+    private static Task parseTask(String line) throws kxException {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
 

@@ -1,5 +1,6 @@
 package task;
 
+import misc.kxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,21 +22,21 @@ public class Event extends Task {
      * @param from The start time of the Event in "dd-MM-yyyy HHmm" format.
      * @param to The end time of the Event in "dd-MM-yyyy HHmm" format.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, String from, String to) throws kxException {
         super(description);
 
         try {
             assert this.from == null: "Parsed DateTime object 'from' should not be null";
             this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
+            throw new kxException("Error in Input format: Input after /from should follow dd-MM-yyyy HHmm format");
         }
 
         try {
             assert this.to == null: "Parsed DateTime object 'to' should not be null";
             this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            System.out.println("Error in Input format: Input should follow dd-MM-yyyy HHmm format ");
+            throw new kxException("Error in Input format: Input after /to should follow dd-MM-yyyy HHmm format");
         }
     }
 

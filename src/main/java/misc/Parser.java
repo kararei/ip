@@ -119,8 +119,6 @@ public class Parser {
             throw new kxException("  ERROR! The description of a deadline must include /by and the date after.");
         }
         String[] outputs = input[1].split(" /by ", -1);
-        System.out.println(outputs[0]);
-        System.out.println(outputs[1]);
         try {
             assert outputs.length == 2 : "Deadline task should have exactly two parts: " +
                     "The task description and the deadline.";
