@@ -90,11 +90,18 @@ public class Parser {
 
     private String deadlineCommand(String[] input) throws kxException {
         if (!input[1].contains(" /by ")) {
-            throw new kxException("  ERROR! The description of a deadline must include /by.");
+            throw new kxException("  ERROR! The description of a deadline must include /by and the date after.");
         }
-        String[] outputs = input[1].split(" /by ");
-        assert outputs.length == 2 : "Deadline task should have exactly two parts: " +
-                "The task description and the deadline.";
+        String[] outputs = input[1].split(" /by ", -1);
+        System.out.println(outputs[0]);
+        System.out.println(outputs[1]);
+        try {
+            assert outputs.length == 2 : "Deadline task should have exactly two parts: " +
+                    "The task description and the deadline.";
+        } catch (AssertionError e) {
+            throw new kxException("Deadline task should have exactly two parts: " +
+                    "The task description and the deadline."); // Re-throw the exception if needed
+        }
 
         Deadline newTask = new Deadline(outputs[0], outputs[1]);
         return addTask(newTask);
