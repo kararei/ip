@@ -67,13 +67,17 @@ public class Parser {
      * @throws kxException If the task index is invalid.
      */
     private String markCommand(String[] input) throws kxException {
-        int index = Integer.parseInt(input[1]) -1;
+        int index;
+        try {
+            index = Integer.parseInt(input[1]) - 1;
+        } catch (NumberFormatException e) {
+            throw new kxException(input[1] + " is not a integer.\nPlease provide a valid task index.");
+        }
 
         if (index < 0 || index >= taskList.size()) {
             throw new kxException("Invalid task index: " + (index + 1) +
                     "\nindex should be between 1 and the total number of tasks");
         }
-
         Task task = taskList.get(index);
         task.markAsDone();
         updateStorage();
@@ -87,8 +91,12 @@ public class Parser {
      * @throws kxException If the task index is invalid.
      */
     private String unmarkCommand(String[] input) throws kxException {
-        int index = Integer.parseInt(input[1]) -1;
-
+        int index;
+        try {
+            index = Integer.parseInt(input[1]) - 1;
+        } catch (NumberFormatException e) {
+            throw new kxException(input[1] + " is not a integer.\nPlease provide a valid task index.");
+        }
         if (index < 0 || index >= taskList.size()) {
             throw new kxException("Invalid task index: " + (index + 1) +
                     "\nindex should be between 1 and the total number of tasks");
