@@ -60,6 +60,12 @@ public class Parser {
         };
     }
 
+    /**
+     * Marks a task as done.
+     * @param input The user input gets split into command and arguments.
+     * @return Message confirming task was marked as done.
+     * @throws kxException If the task index is invalid.
+     */
     private String markCommand(String[] input) throws kxException {
         int index = Integer.parseInt(input[1]) -1;
 
@@ -74,6 +80,12 @@ public class Parser {
         return ui.markMessage(task);
     }
 
+    /**
+     * Unmarks a task as not done.
+     * @param input The user input gets split into command and arguments.
+     * @return Mssage confirming task was unmarked.
+     * @throws kxException If the task index is invalid.
+     */
     private String unmarkCommand(String[] input) throws kxException {
         int index = Integer.parseInt(input[1]) -1;
 
@@ -88,6 +100,12 @@ public class Parser {
         return ui.unmarkMessage(task);
     }
 
+    /**
+     * Adds a new deadline task.
+     * @param input The user input split into command and arguments.
+     * @return The response message confirming the task was added.
+     * @throws kxException If the input format is incorrect.
+     */
     private String deadlineCommand(String[] input) throws kxException {
         if (!input[1].contains(" /by ")) {
             throw new kxException("  ERROR! The description of a deadline must include /by and the date after.");
@@ -107,11 +125,22 @@ public class Parser {
         return addTask(newTask);
     }
 
+    /**
+     * Adds a new todo task.
+     * @param input The user input split into command and arguments.
+     * @return The response message confirming the task was added.
+     */
     private String todoCommand(String[] input) {
         Todo newTask = new Todo(input[1]);
         return addTask(newTask);
     }
 
+    /**
+     * Adds a new event task.
+     * @param input The user input split into command and arguments.
+     * @return The response message confirming the task was added.
+     * @throws kxException If the input format is incorrect.
+     */
     private String eventCommand(String[] input) throws kxException {
         if (!input[1].contains(" /from ") || !input[1].contains(" /to ")) {
             throw new kxException("  ERROR! The description of a deadline must include /from and /to.");
@@ -126,7 +155,11 @@ public class Parser {
         Event newTask = new Event(outputs[0], outputs2[0], outputs2[1]);
         return addTask(newTask);
     }
-
+    /**
+     * Deletes a task from the list.
+     * @param input The user input is plit into command and arguments.
+     * @return The response message confirming the task was deleted.
+     */
     private String deleteCommand(String[] input) {
         int index = Integer.parseInt(input[1]) -1;
         assert index >= 0 && index < taskList.size() : "Invalid task index: " + index;
@@ -137,6 +170,11 @@ public class Parser {
         return ui.deleteMessage(taskList, currTask);
     }
 
+    /**
+     * Searches for tasks matching a keyword.
+     * @param input The user input split into command and arguments.
+     * @return A list of matching tasks.
+     */
     private String findCommand(String[] input) {
         String keyword = input[1];
         ArrayList<Task> matchingTaskList = new ArrayList<>();
@@ -149,6 +187,12 @@ public class Parser {
         return ui.findMessage(matchingTaskList);
     }
 
+    /**
+            * Displays tasks scheduled for a specific date.
+     * @param input The user input split into command and arguments.
+     * @return A formatted string containing tasks scheduled for the given date.
+     * @throws kxException If the date format is incorrect or missing.
+     */
     private String viewCommand(String[] input) throws kxException {
         if (input.length < 2) {
             throw new kxException("Please specify a date in yyyy-MM-dd format.");
@@ -159,7 +203,6 @@ public class Parser {
         } catch (DateTimeParseException e) {
             throw new kxException("Invalid date format, date must be in use yyyy-MM-dd.");
         }
-
         ArrayList<Task> tasksOnDate = new ArrayList<>();
         for (Task task : taskList) {
             if (task instanceof Deadline && ((Deadline) task).getBy().isEqual(selectedDate)) {
@@ -179,6 +222,11 @@ public class Parser {
         return output.toString();
     }
 
+    /**
+     * Adds a new task to the task list and updates storage.
+     * @param newTask The task to be added.
+     * @return A response message confirming the addition of the task.
+     */
     private String addTask(Task newTask) {
         taskList.add(newTask);
         updateStorage();
